@@ -1,0 +1,14 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sLogProfile
+metadata:
+  name: log-profile-validation
+spec:
+  enforcementAction: dryrun
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["APIServer"]
+  parameters:
+    mustProfiles:
+      - "WriteRequestBodies"
+      - "AllRequestBodies"

@@ -1,0 +1,21 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8slogprofile
+  annotations:
+    description: Varify that the log level is set to one of the profile options in the input
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sLogProfile
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package K8sLogProfile
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "APIServer"
+          mustProfiles := input.parameters.mustProfiles
+          not mustProfiles[input.review.object.spec.audit.profile]
+          msg := sprintf("Log profile must be set to one of: %v", [mustProfiles])
+        }
