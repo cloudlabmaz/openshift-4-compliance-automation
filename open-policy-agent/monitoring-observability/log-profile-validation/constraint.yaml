@@ -6,7 +6,7 @@ spec:
   enforcementAction: dryrun
   match:
     kinds:
-      - apiGroups: [""]
+      - apiGroups: ["config.openshift.io"]
         kinds: ["APIServer"]
   parameters:
     mustProfiles:

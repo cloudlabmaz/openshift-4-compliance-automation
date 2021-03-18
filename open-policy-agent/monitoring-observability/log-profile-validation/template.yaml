@@ -13,9 +13,26 @@ spec:
     - target: admission.k8s.gatekeeper.sh
       rego: |
         package K8sLogProfile
+        # violation[{"msg": msg}] {
+        #   input.review.kind.kind == "APIServer"
+          
+        #   mustProfiles := input.parameters.mustProfiles
+        #   currentProfile := input.review.object.spec.audit.profile
+          
+        #   not currentProfile
+        #   not contains(mustProfiles, currentProfile)
+          
+        #   msg := sprintf("Log profile must be set to one of: %v", [mustProfiles])
+        # }
+        
+        # contains(array, elemant) {
+        # array[_] = elemant
+        # }
+        
         violation[{"msg": msg}] {
-          input.review.kind.kind == "APIServer"
-          mustProfiles := input.parameters.mustProfiles
-          not mustProfiles[input.review.object.spec.audit.profile]
-          msg := sprintf("Log profile must be set to one of: %v", [mustProfiles])
+          #re_match("^(security.openshift.io)/", input.review.object.apiVersion)
+          1==1
+          msg := "test"
         }
+
+        
